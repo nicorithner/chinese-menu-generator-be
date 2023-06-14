@@ -2,11 +2,11 @@
   "name": "chinese-menu-generator-be",
   "version": "1.0.0",
   "description": "",
-  "main": "./server.ts",
+  "main": "./src/server.ts",
   "scripts": {
     "build": "npx tsc",
-    "start": "node ./server.ts --watch",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q ./server.ts\"",
+    "start": "node ./src/server.ts --watch",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q ./src/server.ts\"",
     "test": "jest --coverage --verbose"
   },
   "keywords": [],
