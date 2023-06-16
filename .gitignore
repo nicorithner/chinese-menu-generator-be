@@ -6,4 +6,4 @@ empty.js
 node_modules/
 build/
 tmp/
-temp/
+dist/
