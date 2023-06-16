@@ -11,7 +11,7 @@ export const AppDataSource = new DataSource({
     database: "chinese_menu_dev",
     synchronize: true,
     logging: false,
-    entities: [],
+    entities: ["src/db/models/*.ts"],
     migrations: [],
     subscribers: [],
 })
