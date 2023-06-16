@@ -2,40 +2,12 @@ import express, { Request, Response } from 'express';
 const app = express();
 app.use(express.json())
 import { AppDataSource } from "./config/config";
-import {User} from "./models/user.entity"
+import { User } from "./models/user.entity"
 
-app.get("/users", async function (req: Request, res: Response) {
-  const users = await User.find();
-  res.json(users);
-});
 
-app.get("/users/:id", async function (req: Request, res: Response) {
-  const results = await User.findBy({ id: +req.params.id });
-  return res.send(results);
-});
+//routes 
+const userRoutes = require("./routes/user.routes");
+userRoutes(app)
 
-app.post("/users", async function (req: Request, res: Response) {
-  const user = await User.create(req.body);
-  const results = await AppDataSource.getRepository(User).save(
-    user
-  );
-  return res.send(results);
-});
-
-// app.patch("/users/:id", async function (req: Request, res: Response) {
-//   const user = await User.findOneBy({ id: req.body.id });
-
-//   User.merge(user, req.body);
-//   const results = await User.update(User?.id, req.body);
-
-//   return res.send(results);
-// });
-
-app.delete("/users/:id", async function (req: Request, res: Response) {
-  const results = await AppDataSource.getRepository(User).delete(
-    req.params.id
-  );
-  return res.send(results);
-});
 
 export default app;
