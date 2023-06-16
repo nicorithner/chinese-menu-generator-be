@@ -1,31 +1,41 @@
 import express, { Request, Response } from 'express';
 const app = express();
 app.use(express.json())
+import { AppDataSource } from "./config/config";
+import {User} from "./models/user.entity"
 
-app.get('/', (_req: Request, res: Response): Response => {
-  return res.status(200).json({message: 'Hello World!'})
+app.get("/users", async function (req: Request, res: Response) {
+  const users = await User.find();
+  res.json(users);
 });
 
+app.get("/users/:id", async function (req: Request, res: Response) {
+  const results = await User.findBy({ id: +req.params.id });
+  return res.send(results);
+});
 
-// register routes
-app.get("/users", function (req: Request, res: Response) {
-  // here we will have logic to return all users
-})
+app.post("/users", async function (req: Request, res: Response) {
+  const user = await User.create(req.body);
+  const results = await AppDataSource.getRepository(User).save(
+    user
+  );
+  return res.send(results);
+});
 
-app.get("/users/:id", function (req: Request, res: Response) {
-  // here we will have logic to return user by id
-})
+// app.patch("/users/:id", async function (req: Request, res: Response) {
+//   const user = await User.findOneBy({ id: req.body.id });
 
-app.post("/users", function (req: Request, res: Response) {
-  // here we will have logic to save a user
-})
+//   User.merge(user, req.body);
+//   const results = await User.update(User?.id, req.body);
 
-app.put("/users/:id", function (req: Request, res: Response) {
-  // here we will have logic to update a user by a given user id
-})
+//   return res.send(results);
+// });
 
-app.delete("/users/:id", function (req: Request, res: Response) {
-  // here we will have logic to delete a user by a given user id
-})
+app.delete("/users/:id", async function (req: Request, res: Response) {
+  const results = await AppDataSource.getRepository(User).delete(
+    req.params.id
+  );
+  return res.send(results);
+});
 
 export default app;
