@@ -3,23 +3,17 @@ import dotenv from "dotenv";
 import "reflect-metadata"
 dotenv.config();
 
-import { DataSource } from "typeorm";
+import { AppDataSource } from "./config/config";
 
-const dataSource = new DataSource({
-    type: "postgres",
-    host: "localhost",
-    username: "postgres",
-    password: "postgres",
-})
 
-dataSource
-    .initialize()
-    .then(() => {
-        console.log("Data Source has been initialized successfully.")
-    })
-    .catch((err) => {
-        console.error("Error during Data Source initialization:", err)
-    })
+
+AppDataSource.initialize()
+  .then(() => {
+    console.log("Data Source has been initialized successfully.");
+  })
+  .catch((err) => {
+    console.error("Error during Data Source initialization:", err);
+  });
 
 
 //port
