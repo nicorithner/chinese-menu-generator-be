@@ -1,8 +1,13 @@
 import express, { Request, Response } from 'express';
 const app = express();
+app.use(express.json())
+import { AppDataSource } from "./config/config";
+import { User } from "./models/user.entity"
 
-app.get('/', (_req: Request, res: Response): Response => {
-  return res.status(200).json({message: 'Hello World!'})
-});
+
+//routes 
+const userRoutes = require("./routes/user.routes");
+userRoutes(app)
+
 
 export default app;
