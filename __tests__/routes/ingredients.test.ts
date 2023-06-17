@@ -87,6 +87,26 @@ describe("Ingredients Endpoints", () => {
       });
   });
 
+  it("PUT '/ingredients/:id', updates an ingredient", (done) => {
+    const response = request(app)
+      .put("/ingredients/1")
+      .send({
+        name: "arugula",
+      })
+      .expect(200)
+      .end(async (err, res) => {
+        if (err) return done(err);
+
+        const updated = await Ingredient.findOneBy({ id: 1 });
+        expect(updated).toMatchObject({
+          id: 1,
+          name: "arugula",
+        });
+
+        done();
+      });
+  });
+
   it("DELETE '/ingredients/:id', deletes an ingredient by id", (done) => {
     const response = request(app)
       .delete("/ingredients/1")
