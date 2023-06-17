@@ -1,11 +1,9 @@
 import app from "./app";
 import dotenv from "dotenv";
-import "reflect-metadata"
-dotenv.config();
-
+import "reflect-metadata";
 import { AppDataSource } from "./config/config";
 
-
+dotenv.config();
 
 AppDataSource.initialize()
   .then(() => {
@@ -14,7 +12,6 @@ AppDataSource.initialize()
   .catch((err) => {
     console.error("Error during Data Source initialization:", err);
   });
-
 
 //port
 const port = process.env.PORT;
