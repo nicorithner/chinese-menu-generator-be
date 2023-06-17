@@ -1,5 +1,3 @@
-import express from 'express';
-const app = express();
 import { findAllUsers, findUser, createUser, deleteUser } from "../controllers/user.controller";
 
 module.exports = (app) => {

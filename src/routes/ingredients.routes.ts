@@ -1,12 +1,9 @@
-import express from "express";
 import {
   findAllIngredients,
   findIngredientById,
   createIngredient,
   deleteIngredient,
 } from "../controllers/ingredients.controller";
-const app = express();
-app.use(express.json());
 
 module.exports = (app) => {
   // Create a new ingredient
