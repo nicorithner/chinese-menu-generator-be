@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { Ingredient } from "../models/ingredient.entity";
+import {User} from "../models/user.entity";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -11,7 +12,7 @@ export const AppDataSource = new DataSource({
   database: "chinese_menu_dev",
   synchronize: true,
   logging: true,
-  entities: [Ingredient],
+  entities: [Ingredient, User],
   migrations: [],
   subscribers: [],
 });
