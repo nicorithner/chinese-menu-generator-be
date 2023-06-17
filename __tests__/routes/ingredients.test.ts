@@ -28,12 +28,13 @@ describe("Ingredients Endpoints", () => {
     await connection.destroy();
   });
 
-  it("'/ingredients', Gets all ingredients", (done) => {
+  it("GET '/ingredients', Gets all ingredients", (done) => {
     const response = request(app)
       .get("/ingredients")
       .expect(200)
       .end((err, res) => {
         if (err) return done(err);
+
         expect(res.body).toMatchObject([
           {
             id: 1,
@@ -44,6 +45,58 @@ describe("Ingredients Endpoints", () => {
             name: "apple",
           },
         ]);
+
+        done();
+      });
+  });
+
+  it("POST '/ingredients/', creates an ingredient", (done) => {
+    const response = request(app)
+      .post("/ingredients")
+      .send({
+        name: "potato",
+      })
+      .expect(200)
+      .end((err, res) => {
+        if (err) return done(err);
+
+        expect(res.body).toMatchObject({
+          id: 3,
+          name: "potato",
+        });
+
+        done();
+      });
+  });
+
+  it("GET '/ingredients/:id', Get an ingredient by id", (done) => {
+    const response = request(app)
+      .get("/ingredients/1")
+      .expect(200)
+      .end((err, res) => {
+        if (err) return done(err);
+
+        expect(res.body).toMatchObject([
+          {
+            id: 1,
+            name: "kale",
+          },
+        ]);
+
+        done();
+      });
+  });
+
+  it("DELETE '/ingredients/:id', deletes an ingredient by id", (done) => {
+    const response = request(app)
+      .delete("/ingredients/1")
+      .expect(200)
+      .end(async (err, res) => {
+        if (err) return done(err);
+
+        const deleted = await Ingredient.findOneBy({ id: 1 });
+        expect(deleted).toBe(null);
+
         done();
       });
   });
