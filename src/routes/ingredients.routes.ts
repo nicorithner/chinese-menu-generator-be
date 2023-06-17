@@ -3,6 +3,7 @@ import {
   findIngredientById,
   createIngredient,
   deleteIngredient,
+  updateIngredient,
 } from "../controllers/ingredients.controller";
 
 module.exports = (app) => {
@@ -14,6 +15,9 @@ module.exports = (app) => {
 
   // Retrieve a single ingredient with id
   app.get("/ingredients/:id", findIngredientById);
+
+  // Update a single ingredient with id
+  app.put("/ingredients/:id", updateIngredient);
 
   // Delete a ingredient with id
   app.delete("/ingredients/:id", deleteIngredient);
