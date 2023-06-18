@@ -25,7 +25,6 @@ export const createIngredient = async (req: Request, res: Response) => {
 
 export const updateIngredient = async function (req: Request, res: Response) {
   const ingredient = await Ingredient.findBy({ id: +req.params.id });
-
   await Ingredient.update(ingredient[0].id, req.body);
   const updated = await Ingredient.findBy({ id: +req.params.id });
   return res.send(updated);
