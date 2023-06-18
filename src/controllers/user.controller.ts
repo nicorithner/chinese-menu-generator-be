@@ -21,14 +21,13 @@ export const createUser = async function (req: Request, res: Response) {
     return res.send(results);
 };
 
-// export const updateUser =  async function (req: Request, res: Response) {
-//   const user = await User.findOneBy({ id: req.body.id });
+export const updateUser = async function (req: Request, res: Response) {
+    const user = await User.findBy({ id: +req.params.id });
+    await User.update(user[0].id, req.body);
+    const updated = await User.findBy({ id: +req.params.id });
 
-//   User.merge(user, req.body);
-//   const results = await User.update(User.id, req.body);
-
-//   return res.send(results);
-// };
+    return res.send(updated);
+};
 
 export const deleteUser = async function (req: Request, res: Response) {
     const results = await AppDataSource.getRepository(User).delete(
