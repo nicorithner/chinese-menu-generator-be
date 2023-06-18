@@ -1,12 +1,10 @@
-import express from "express";
 import {
   findAllIngredients,
   findIngredientById,
   createIngredient,
   deleteIngredient,
+  updateIngredient,
 } from "../controllers/ingredients.controller";
-const app = express();
-app.use(express.json());
 
 module.exports = (app) => {
   // Create a new ingredient
@@ -17,6 +15,9 @@ module.exports = (app) => {
 
   // Retrieve a single ingredient with id
   app.get("/ingredients/:id", findIngredientById);
+
+  // Update a single ingredient with id
+  app.put("/ingredients/:id", updateIngredient);
 
   // Delete a ingredient with id
   app.delete("/ingredients/:id", deleteIngredient);

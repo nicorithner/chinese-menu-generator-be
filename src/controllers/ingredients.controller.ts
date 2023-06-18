@@ -23,14 +23,13 @@ export const createIngredient = async (req: Request, res: Response) => {
   return res.send(results);
 };
 
-// app.patch("/ingredients/:id", async function (req: Request, res: Response) {
-//   const ingredient = await Ingredient.findOneBy({ id: req.body.id });
+export const updateIngredient = async function (req: Request, res: Response) {
+  const ingredient = await Ingredient.findBy({ id: +req.params.id });
 
-//   Ingredient.merge(ingredient, req.body);
-//   const results = await Ingredient.update(ingredient?.id, req.body);
-
-//   return res.send(results);
-// });
+  await Ingredient.update(ingredient[0].id, req.body);
+  const updated = await Ingredient.findBy({ id: +req.params.id });
+  return res.send(updated);
+};
 
 export const deleteIngredient = async (req: Request, res: Response) => {
   const results = await AppDataSource.getRepository(Ingredient).delete(

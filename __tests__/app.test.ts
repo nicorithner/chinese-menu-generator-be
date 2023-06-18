@@ -1,22 +1,22 @@
 import request from "supertest";
-import {Express} from 'express-serve-static-core';
-import app from "../src/app"
+import { Express } from "express-serve-static-core";
+import app from "../src/app";
 
-let server: Express
+let server: Express;
 
 describe('APP should say "Hello World!"', () => {
   beforeAll(() => {
     server = app;
   });
 
-  it('should return 200',  (done) => {
+  it("should return 200", (done) => {
     request(server)
-      .get('/')
+      .get("/")
       .expect(200)
       .end((err, res) => {
-        if (err) return done(err)
-        expect(res.body).toMatchObject({'message': `Hello World!`})
-        done()
-      })
+        if (err) return done(err);
+        expect(res.body).toMatchObject({ message: `Hello World!` });
+        done();
+      });
   });
 });
