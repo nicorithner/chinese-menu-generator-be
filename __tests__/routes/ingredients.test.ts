@@ -61,8 +61,11 @@ describe("Ingredients Endpoints", () => {
         if (err) return done(err);
 
         expect(res.body).toMatchObject({
-          id: 3,
-          name: "potato",
+          message: "Ingredient id: 3 created successfully",
+          result: {
+            id: 3,
+            name: "potato",
+          },
         });
 
         done();
