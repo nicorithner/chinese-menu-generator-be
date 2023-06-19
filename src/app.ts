@@ -11,7 +11,9 @@ app.get("/", (_req: Request, res: Response): Response => {
 
 const ingredientRoutes = require("./routes/ingredients.routes");
 const userRoutes = require("./routes/user.routes");
+const swaggerRoute = require("../swagger.ts");
 userRoutes(app);
 ingredientRoutes(app);
+swaggerRoute(app);
 
 export default app;
