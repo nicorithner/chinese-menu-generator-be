@@ -11,7 +11,10 @@ app.get("/", (_req: Request, res: Response): Response => {
 
 const ingredientRoutes = require("./routes/ingredients.routes");
 const userRoutes = require("./routes/user.routes");
+const menuRoutes = require("./routes/menu.routes")
 userRoutes(app);
 ingredientRoutes(app);
+menuRoutes(app);
+
 
 export default app;
