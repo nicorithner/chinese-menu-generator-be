@@ -1,9 +1,10 @@
 import express, { Request, Response } from 'express';
-const app = express();
-app.use(express.json())
 import { AppDataSource } from "../config/config";
 import { User } from "../models/user.entity"
 import { Menu } from '../models/menu.entity';
+
+const app = express();
+app.use(express.json())
 
 export const findAllUsers = async (req: Request, res: Response) => {
     const users = await User.find();
