@@ -1,8 +1,9 @@
-import express, { Request, Response, response } from "express";
-const app = express();
-app.use(express.json());
+import express, { Request, Response } from "express";
 import { AppDataSource } from "../config/config";
 import { Menu } from "../models/menu.entity"
+
+const app = express();
+app.use(express.json());
 
 export const findAllMenus = async (req: Request, res: Response) => {
     const menus = await Menu.find();
