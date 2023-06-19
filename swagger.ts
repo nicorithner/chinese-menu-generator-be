@@ -11,7 +11,7 @@ const options = {
         "This API serves Chinese cuisine menus based on a selection of ingredients provided by the user",
     },
   },
-  apis: ["./app/routes/*.routes.ts"],
+  apis: ["./src/routes/*.routes.ts"],
 };
 
 const specs = swaggerJsdoc(options);
