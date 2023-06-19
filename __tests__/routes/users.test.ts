@@ -2,6 +2,7 @@ import request from "supertest";
 import { AppDataSource } from "../../src/config/config";
 import { User } from "../../src/models/user.entity";
 import app from "../../src/app";
+import { Menu } from "../../src/models/menu.entity";
 
 let connection: any;
 
@@ -10,7 +11,7 @@ describe("Users Endpoints", () => {
         //set up the test db
         AppDataSource.setOptions({
             database: "chinese_menu_test",
-            entities: [User],
+            entities: [User, Menu],
             synchronize: true,
             dropSchema: true,
         })
@@ -83,7 +84,7 @@ describe("Users Endpoints", () => {
             });
     });
 
-    it("PUT '/users/:id', updates a user", (done) => {
+    it("PUT '/users/:id', update a user", (done) => {
         const response = request(app)
             .put("/users/1")
             .send({
@@ -92,8 +93,8 @@ describe("Users Endpoints", () => {
             })
             .expect(200)
             .end(async (err, res) => {
-                const upDated = await User.findOneBy({ id: 1 });
-                expect(upDated).toMatchObject({
+                const updated = await User.findOneBy({ id: 1 });
+                expect(updated).toMatchObject({
                     id: 1,
                     firstName: "Tom",
                     lastName: "W",
@@ -108,8 +109,10 @@ describe("Users Endpoints", () => {
             .expect(200)
             .end(async (err, res) => {
                 if (err) return done(err);
-                const deleted = await User.findOneBy({ id: 1 });
-                expect(deleted).toBe(null);
+                const deletedMenu = await Menu.findOneBy({ user_id: 1 });
+                const deletedUser = await User.findOneBy({ id: 1 });
+                expect(deletedMenu).toBe(null);
+                expect(deletedUser).toBe(null);
                 done();
             });
     });
