@@ -3,6 +3,7 @@ const app = express();
 app.use(express.json())
 import { AppDataSource } from "../config/config";
 import { User } from "../models/user.entity"
+import { Menu } from '../models/menu.entity';
 
 export const findAllUsers = async (req: Request, res: Response) => {
     const users = await User.find();
@@ -30,6 +31,8 @@ export const updateUser = async function (req: Request, res: Response) {
 };
 
 export const deleteUser = async function (req: Request, res: Response) {
+
+    await AppDataSource.getRepository(Menu).delete({ user_id: +req.params.id });
     const results = await AppDataSource.getRepository(User).delete(
         req.params.id
     );
