@@ -21,7 +21,7 @@ export class Menu extends BaseEntity {
     user_id: number
 
 
-    @ManyToOne(() => User, (user) => user.menus, { onDelete: "CASCADE" })
-    user: User
+    // @ManyToOne(() => User, (user) => user.menus, { onDelete: "CASCADE" })
+    // user: User
 
 }
