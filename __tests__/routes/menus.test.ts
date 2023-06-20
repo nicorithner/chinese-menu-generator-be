@@ -11,10 +11,11 @@ describe("Menus Endpoints", () => {
         //set up the test db 
         AppDataSource.setOptions({
             database: "chinese_menu_test",
-            entities: [User, Menu],
+            entities: [Menu],
             synchronize: true,
             dropSchema: true,
         })
+
         connection = await AppDataSource.initialize();
         await connection.synchronize(true);
 
@@ -68,9 +69,7 @@ describe("Menus Endpoints", () => {
             .end((err, res) => {
                 if (err) return done(err);
                 expect(res.body).toMatchObject({
-                    id: 3,
-                    name: "Mini Spicy Hotpot",
-                    user_id: 3,
+                    message: "Menu id: 3 created successfully"
                 });
                 done();
             });
