@@ -11,12 +11,13 @@ describe("Users Endpoints", () => {
         //set up the test db
         AppDataSource.setOptions({
             database: "chinese_menu_test",
-            entities: [User, Menu],
+            entities: [User],
             synchronize: true,
             dropSchema: true,
         })
         connection = await AppDataSource.initialize();
         await connection.synchronize(true);
+
 
         //create some users 
         const user1 = await User.create({ firstName: "Lily", lastName: "G" });
@@ -24,6 +25,7 @@ describe("Users Endpoints", () => {
         await AppDataSource.getRepository(User).save(user1);
         await AppDataSource.getRepository(User).save(user2);
     });
+
     afterAll(async () => {
         await connection.destroy();
     });
@@ -61,9 +63,12 @@ describe("Users Endpoints", () => {
             .end((err, res) => {
                 if (err) return done(err);
                 expect(res.body).toMatchObject({
-                    id: 3,
-                    firstName: "Tina",
-                    lastName: "S",
+                    message: "User id: 3 created successfully",
+                    result: {
+                        id: 3,
+                        firstName: "Tina",
+                        lastName: "S",
+                    }
                 });
                 done();
             });
@@ -110,8 +115,8 @@ describe("Users Endpoints", () => {
             .end(async (err, res) => {
                 if (err) return done(err);
                 const deletedMenu = await Menu.findOneBy({ user_id: 1 });
-                const deletedUser = await User.findOneBy({ id: 1 });
                 expect(deletedMenu).toBe(null);
+                const deletedUser = await User.findOneBy({ id: 1 });
                 expect(deletedUser).toBe(null);
                 done();
             });
