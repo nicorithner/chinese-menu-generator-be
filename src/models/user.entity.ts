@@ -20,8 +20,8 @@ export class User extends BaseEntity {
     @Column()
     lastName: string
 
-    // @OneToMany(() => Menu, (menu) => menu.user, {
-    //     cascade: true,
-    // })
-    // menus: Menu[]
+    @OneToMany(() => Menu, (menu) => menu.user, {
+        cascade: true
+    })
+    menus: Menu[];
 }
