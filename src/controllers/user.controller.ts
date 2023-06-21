@@ -63,7 +63,7 @@ export const updateUser = async function (req: Request, res: Response) {
 
 export const deleteUser = async function (req: Request, res: Response) {
     try {
-        await AppDataSource.getRepository(Menu).delete({ user_id: +req.params.id });
+        await AppDataSource.getRepository(Menu).delete({ user_id: req.params.id });
         const results = await AppDataSource.getRepository(User).delete(
             req.params.id
         );
