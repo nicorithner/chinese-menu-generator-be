@@ -1,5 +1,5 @@
 import {
-    BaseEntity, Entity, Column, PrimaryGeneratedColumn, ManyToOne
+    BaseEntity, Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn
 } from "typeorm"
 
 import { User } from "./user.entity"
@@ -16,12 +16,13 @@ export class Menu extends BaseEntity {
     @Column()
     name: string
 
-
     @Column()
-    user_id: number
+    user_id: string
 
-
-    // @ManyToOne(() => User, (user) => user.menus, { onDelete: "CASCADE" })
-    // user: User
+    @ManyToOne(() => User, (user) => user.menus, {
+        onDelete: "CASCADE",
+    })
+    @JoinColumn({ name: 'user_id' })
+    user: User
 
 }
