@@ -11,7 +11,7 @@ describe("Menus Endpoints", () => {
         //set up the test db 
         AppDataSource.setOptions({
             database: "chinese_menu_test",
-            entities: [Menu],
+            entities: [Menu, User],
             synchronize: true,
             dropSchema: true,
         })
@@ -19,15 +19,23 @@ describe("Menus Endpoints", () => {
         connection = await AppDataSource.initialize();
         await connection.synchronize(true);
 
+
+        //create some users 
+        const user1 = await User.create({ firstName: "Lily", lastName: "G" });
+        const user2 = await User.create({ firstName: "Lucy", lastName: "T" });
+        await AppDataSource.getRepository(User).save(user1);
+        await AppDataSource.getRepository(User).save(user2);
+
         //create some menus
         const menu1 = await Menu.create({
             name: "Cucumber Salad",
-            user_id: 1,
+            user_id: user1.id,
         });
         const menu2 = await Menu.create({
             name: "Spicy Cold Noodles",
-            user_id: 2,
+            user_id: user2.id,
         });
+
         await AppDataSource.getRepository(Menu).save(menu1);
         await AppDataSource.getRepository(Menu).save(menu2);
     });
@@ -63,7 +71,7 @@ describe("Menus Endpoints", () => {
             .post("/menus")
             .send({
                 name: "Mini Spicy Hotpot",
-                user_id: 3,
+                user_id: 1,
             })
             .expect(200)
             .end((err, res) => {
