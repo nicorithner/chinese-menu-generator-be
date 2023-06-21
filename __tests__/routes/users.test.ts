@@ -11,7 +11,7 @@ describe("Users Endpoints", () => {
         //set up the test db
         AppDataSource.setOptions({
             database: "chinese_menu_test",
-            entities: [User],
+            entities: [User, Menu],
             synchronize: true,
             dropSchema: true,
         })
