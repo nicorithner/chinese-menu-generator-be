@@ -22,7 +22,7 @@ export class Recipe extends BaseEntity {
   @Column("varchar", { length: 1000 })
   instructions: string;
 
-  @ManyToMany(() => Ingredient, (ingredient) => ingredient.recipes)
-  @JoinTable()
-  ingredients: Ingredient[];
+    @ManyToMany(() => Ingredient)
+    @JoinTable()
+    ingredients: Ingredient[]
 }
