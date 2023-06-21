@@ -11,8 +11,7 @@ export const findAllRecipes = async (_req: Request, res: Response) => {
     res.json(recipes);
   } catch (err: any) {
     res.status(500).send({
-      message:
-        err.message || "Something went wrong while retrieving recipes",
+      message: err.message || "Something went wrong while retrieving recipes",
     });
   }
 };
@@ -23,8 +22,7 @@ export const findRecipe = async (req: Request, res: Response) => {
     return res.send(result);
   } catch (err: any) {
     res.status(500).send({
-      message:
-        err.message || `Something went wrong while retrieving recipe`,
+      message: err.message || `Something went wrong while retrieving recipe`,
     });
   }
 };
@@ -32,9 +30,7 @@ export const findRecipe = async (req: Request, res: Response) => {
 export const createRecipe = async (req: Request, res: Response) => {
   try {
     const recipe = await Recipe.create(req.body);
-    const result = await AppDataSource.getRepository(Recipe).save(
-      recipe
-    );
+    const result = await AppDataSource.getRepository(Recipe).save(recipe);
     return res.status(200).send({
       message: `Recipe id: ${result.id} created successfully`,
       result,
@@ -64,10 +60,32 @@ export const deleteRecipe = async (req: Request, res: Response) => {
     const results = await AppDataSource.getRepository(Recipe).delete(
       req.params.id
     );
-    return res.send({message: "Successfully deleted recipe", results });
+    return res.send({ message: "Successfully deleted recipe", results });
   } catch (err: any) {
     res.status(500).send({
       message: err.message || "Something went wrong while deleting recipe",
+    });
+  }
+};
+
+export const findRecipeIngredients = async (req: Request, res: Response) => {
+  try {
+    const recipe = await AppDataSource.getRepository(Recipe).findOne({
+      relations: {
+        ingredients: true,
+      },
+      where: { id: +req.params.id },
+    });
+    if (recipe?.ingredients) {
+      return res.send(recipe?.ingredients);
+    } else {
+      return [];
+    }
+  } catch (err: any) {
+    res.status(500).send({
+      message:
+        err.message ||
+        `Something went wrong while retrieving list of ingredients`,
     });
   }
 };
