@@ -17,12 +17,11 @@ export class Menu extends BaseEntity {
     name: string
 
     @Column()
-    user_id: string
+    user_id: number
 
     @ManyToOne(() => User, (user) => user.menus, {
         onDelete: "CASCADE",
     })
     @JoinColumn({ name: 'user_id' })
     user: User
-
 }
