@@ -2,6 +2,7 @@ import request from "supertest";
 import { AppDataSource } from "../../src/config/config";
 import { User } from "../../src/models/user.entity";
 import app from "../../src/app";
+import { Menu } from "../../src/models/menu.entity";
 
 let connection: any;
 
@@ -10,7 +11,7 @@ describe("Users Endpoints", () => {
         //set up the test db
         AppDataSource.setOptions({
             database: "chinese_menu_test",
-            entities: [User],
+            entities: [User, Menu],
             synchronize: true,
             dropSchema: true,
         })
@@ -22,7 +23,19 @@ describe("Users Endpoints", () => {
         const user2 = await User.create({ firstName: "Lucy", lastName: "T" });
         await AppDataSource.getRepository(User).save(user1);
         await AppDataSource.getRepository(User).save(user2);
+
+
+        //create sMenu
+        const menu1 = await Menu.create({ name: "Spicy Fish", user_id: user1.id });
+        const menu2 = await Menu.create({ name: "Chicken Salad", user_id: user1.id });
+        await AppDataSource.getRepository(Menu).save(menu1);
+        await AppDataSource.getRepository(Menu).save(menu2);
+
+
+        user1.menus = [menu1, menu2];
+        await AppDataSource.getRepository(User).save(user1);
     });
+
     afterAll(async () => {
         await connection.destroy();
     });
@@ -60,9 +73,12 @@ describe("Users Endpoints", () => {
             .end((err, res) => {
                 if (err) return done(err);
                 expect(res.body).toMatchObject({
-                    id: 3,
-                    firstName: "Tina",
-                    lastName: "S",
+                    message: "User id: 3 created successfully",
+                    result: {
+                        id: 3,
+                        firstName: "Tina",
+                        lastName: "S",
+                    }
                 });
                 done();
             });
@@ -73,17 +89,18 @@ describe("Users Endpoints", () => {
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
-                expect(res.body).toMatchObject([
+                expect(res.body).toMatchObject(
                     {
+                        id: 1,
                         firstName: "Lily",
-                        lastName: "G"
+                        lastName: "G",
                     },
-                ]);
+                );
                 done();
             });
     });
 
-    it("PUT '/users/:id', updates a user", (done) => {
+    it("PUT '/users/:id', update a user", (done) => {
         const response = request(app)
             .put("/users/1")
             .send({
@@ -92,8 +109,8 @@ describe("Users Endpoints", () => {
             })
             .expect(200)
             .end(async (err, res) => {
-                const upDated = await User.findOneBy({ id: 1 });
-                expect(upDated).toMatchObject({
+                const updated = await User.findOneBy({ id: 1 });
+                expect(updated).toMatchObject({
                     id: 1,
                     firstName: "Tom",
                     lastName: "W",
@@ -102,14 +119,32 @@ describe("Users Endpoints", () => {
             });
     });
 
+    it("GET '/users/:id/menus' it will return user's list of menus", (done) => {
+        request(app)
+            .get("/users/1/menus")
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err);
+
+                expect(res.body).toMatchObject([
+                    { id: 1, name: "Spicy Fish", user_id: 1 },
+                    { id: 2, name: "Chicken Salad", user_id: 1 },
+                ]);
+                done();
+            });
+    });
+
+
     it("DELETE '/users/:id', delete a user by id", (done) => {
         const response = request(app)
             .delete("/users/1")
             .expect(200)
             .end(async (err, res) => {
                 if (err) return done(err);
-                const deleted = await User.findOneBy({ id: 1 });
-                expect(deleted).toBe(null);
+                const deletedMenu = await Menu.findOneBy({ user_id: 1 });
+                expect(deletedMenu).toBe(null);
+                const deletedUser = await User.findOneBy({ id: 1 });
+                expect(deletedUser).toBe(null);
                 done();
             });
     });
