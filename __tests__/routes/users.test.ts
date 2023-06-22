@@ -18,12 +18,22 @@ describe("Users Endpoints", () => {
         connection = await AppDataSource.initialize();
         await connection.synchronize(true);
 
-
         //create some users 
         const user1 = await User.create({ firstName: "Lily", lastName: "G" });
         const user2 = await User.create({ firstName: "Lucy", lastName: "T" });
         await AppDataSource.getRepository(User).save(user1);
         await AppDataSource.getRepository(User).save(user2);
+
+
+        //create sMenu
+        const menu1 = await Menu.create({ name: "Spicy Fish", user_id: user1.id });
+        const menu2 = await Menu.create({ name: "Chicken Salad", user_id: user1.id });
+        await AppDataSource.getRepository(Menu).save(menu1);
+        await AppDataSource.getRepository(Menu).save(menu2);
+
+
+        user1.menus = [menu1, menu2];
+        await AppDataSource.getRepository(User).save(user1);
     });
 
     afterAll(async () => {
@@ -79,12 +89,13 @@ describe("Users Endpoints", () => {
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
-                expect(res.body).toMatchObject([
+                expect(res.body).toMatchObject(
                     {
+                        id: 1,
                         firstName: "Lily",
-                        lastName: "G"
+                        lastName: "G",
                     },
-                ]);
+                );
                 done();
             });
     });
@@ -107,6 +118,22 @@ describe("Users Endpoints", () => {
                 done();
             });
     });
+
+    it("GET '/users/:id/menus' it will return user's list of menus", (done) => {
+        request(app)
+            .get("/users/1/menus")
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err);
+
+                expect(res.body).toMatchObject([
+                    { id: 1, name: "Spicy Fish", user_id: 1 },
+                    { id: 2, name: "Chicken Salad", user_id: 1 },
+                ]);
+                done();
+            });
+    });
+
 
     it("DELETE '/users/:id', delete a user by id", (done) => {
         const response = request(app)
