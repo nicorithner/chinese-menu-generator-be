@@ -8,6 +8,7 @@ app.use(express.json());
 export const findAllRecipes = async (_req: Request, res: Response) => {
   try {
     const recipes = await Recipe.find();
+    if (!recipes) throw new Error("No recipes found");
     res.json(recipes);
   } catch (err: any) {
     res.status(500).send({
@@ -18,8 +19,9 @@ export const findAllRecipes = async (_req: Request, res: Response) => {
 
 export const findRecipe = async (req: Request, res: Response) => {
   try {
-    const result = await Recipe.findBy({ id: +req.params.id });
-    return res.send(result);
+    const recipe = await Recipe.findOne({ where: { id: +req.params.id } });
+    if (!recipe) throw new Error("No Recipe found");
+    res.send(recipe);
   } catch (err: any) {
     res.status(500).send({
       message: err.message || `Something went wrong while retrieving recipe`,
@@ -30,10 +32,10 @@ export const findRecipe = async (req: Request, res: Response) => {
 export const createRecipe = async (req: Request, res: Response) => {
   try {
     const recipe = await Recipe.create(req.body);
-    const result = await AppDataSource.getRepository(Recipe).save(recipe);
-    return res.status(200).send({
-      message: `Recipe id: ${result.id} created successfully`,
-      result,
+    const savedRecipe = await AppDataSource.getRepository(Recipe).save(recipe);
+    res.status(200).send({
+      message: `Recipe id: ${savedRecipe.id} created successfully`,
+      savedRecipe,
     });
   } catch (err: any) {
     res.status(500).send({
@@ -45,9 +47,11 @@ export const createRecipe = async (req: Request, res: Response) => {
 export const updateRecipe = async function (req: Request, res: Response) {
   try {
     const recipe = await Recipe.findBy({ id: +req.params.id });
+    if (!recipe) throw new Error(`No recipe found with id ${req.params.id}`);
+
     await Recipe.update(recipe[0].id, req.body);
     const updated = await Recipe.findBy({ id: +req.params.id });
-    return res.send(updated);
+    res.send(updated);
   } catch (err: any) {
     res.status(500).send({
       message: err.message || "Something went wrong while updating recipe",
@@ -60,7 +64,7 @@ export const deleteRecipe = async (req: Request, res: Response) => {
     const results = await AppDataSource.getRepository(Recipe).delete(
       req.params.id
     );
-    return res.send({ message: "Successfully deleted recipe", results });
+    res.send({ message: "Successfully deleted recipe", results });
   } catch (err: any) {
     res.status(500).send({
       message: err.message || "Something went wrong while deleting recipe",
@@ -76,10 +80,15 @@ export const findRecipeIngredients = async (req: Request, res: Response) => {
       },
       where: { id: +req.params.id },
     });
+
     if (recipe?.ingredients) {
-      return res.send(recipe?.ingredients);
+      res.send(recipe?.ingredients);
+    } else if (!recipe) {
+      throw new Error("Recipe not found");
     } else {
-      return [];
+      res.status(204).send({
+        message: `Recipe ${recipe?.title} has no ingredients`,
+      });
     }
   } catch (err: any) {
     res.status(500).send({
