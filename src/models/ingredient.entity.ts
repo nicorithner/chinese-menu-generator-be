@@ -1,4 +1,9 @@
-import { BaseEntity, Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import {
+  BaseEntity,
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
 @Entity()
 export class Ingredient extends BaseEntity {
