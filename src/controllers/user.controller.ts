@@ -9,6 +9,7 @@ app.use(express.json())
 export const findAllUsers = async (req: Request, res: Response) => {
     try {
         const users = await User.find();
+        if (users.length === 0) throw new Error("No users found!")
         res.json(users);
     } catch (err: any) {
         res.status(500).send({
@@ -20,8 +21,9 @@ export const findAllUsers = async (req: Request, res: Response) => {
 
 export const findUserByID = async function (req: Request, res: Response) {
     try {
-        const results = await User.findBy({ id: +req.params.id });
-        return res.send(results);
+        const result = await User.findOneBy({ id: +req.params.id });
+        if (!result) throw new Error(`No user with id of ${+req.params.id} are found`)
+        res.send(result);
     } catch (err: any) {
         res.status(500).send({
             message:
@@ -35,7 +37,7 @@ export const createUser = async function (req: Request, res: Response) {
     try {
         const user = await User.create(req.body);
         const result = await AppDataSource.getRepository(User).save(user);
-        return res.status(200).send({
+        res.status(200).send({
             message: `User id: ${result.id} created successfully`, result
         });
     } catch (err: any) {
@@ -48,11 +50,11 @@ export const createUser = async function (req: Request, res: Response) {
 
 export const updateUser = async function (req: Request, res: Response) {
     try {
-        const user = await User.findBy({ id: +req.params.id });
-        await User.update(user[0].id, req.body);
+        const user = await User.findOneBy({ id: +req.params.id });
+        if (!user) throw new Error(`User with id ${+req.params.id} can not be found!`)
+        await User.update(user.id, req.body);
         const updated = await User.findBy({ id: +req.params.id });
-
-        return res.send(updated);
+        res.send(updated);
     } catch (err: any) {
         res.status(500).send({
             message: err.message ||
@@ -64,10 +66,14 @@ export const updateUser = async function (req: Request, res: Response) {
 export const deleteUser = async function (req: Request, res: Response) {
     try {
         await AppDataSource.getRepository(Menu).delete({ user_id: +req.params.id });
-        const results = await AppDataSource.getRepository(User).delete(
+        const userToDelete = await AppDataSource.getRepository(User).findOneBy(
+            { id: +req.params.id }
+        );
+        if (!userToDelete) throw new Error(`User with id ${+req.params.id} can not be found!`)
+        const result = await AppDataSource.getRepository(User).delete(
             req.params.id
         );
-        return res.send({ message: "Successfully deleted user", results });
+        res.send({ message: "Successfully deleted user", result });
     } catch (err: any) {
         res.status(500).send({
             message: err.message ||
@@ -75,5 +81,31 @@ export const deleteUser = async function (req: Request, res: Response) {
         });
     }
 };
+
+export const findUserMenus = async (req: Request, res: Response) => {
+    try {
+        const user = await AppDataSource.getRepository(User).findOne({
+            relations: {
+                menus: true,
+            },
+            where: { id: +req.params.id }
+        });
+        if (!user) {
+            throw new Error("User not found!")
+        } else if (user.menus.length === 0) {
+            res.status(204).send({
+                message: `User ${user.firstName} ${user.lastName} has no menus.`
+            })
+        } else {
+            res.send(user.menus)
+        }
+    } catch (err: any) {
+        res.status(500).send({
+            message:
+                err.message || `Something went wrong while retrieving list of menus`
+        });
+    }
+};
+
 
 export default app;
