@@ -1,4 +1,4 @@
-import { findAllUsers, findUserByID, createUser, updateUser, deleteUser } from "../controllers/user.controller";
+import { findAllUsers, findUserByID, createUser, updateUser, deleteUser, findUserMenus } from "../controllers/user.controller";
 
 module.exports = (app) => {
     // Retrieve all networks
@@ -15,6 +15,9 @@ module.exports = (app) => {
 
     // Delete a network with id
     app.delete("/users/:id", deleteUser);
+
+    //find users' menu
+    app.get("/users/:id/menus", findUserMenus);
 }
 
 
