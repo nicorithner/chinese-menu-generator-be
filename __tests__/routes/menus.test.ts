@@ -89,13 +89,13 @@ describe("Menus Endpoints", () => {
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
-                expect(res.body).toMatchObject([
+                expect(res.body).toMatchObject(
                     {
                         id: 1,
                         name: "Cucumber Salad",
                         user_id: 1,
                     }
-                ]);
+                );
                 done();
             });
     });
