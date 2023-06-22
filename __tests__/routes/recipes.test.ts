@@ -146,7 +146,7 @@ describe("Recipes Endpoints", () => {
   });
 
   it("GET '/recipes/:id/ingredients' it will return recipe's list of ingredients", (done) => {
-    const response = request(app)
+    request(app)
       .get("/recipes/2/ingredients")
       .expect(200)
       .end((err, res) => {
