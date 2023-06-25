@@ -137,18 +137,18 @@ module.exports = (app) => {
 
   // ---- Routes
 
-  // Create a new ingredient
+  //Create a new ingredient
   app.post("/ingredients", createIngredient);
 
-  // Retrieve all ingredients
+  //Retrieve all ingredients
   app.get("/ingredients", findAllIngredients);
 
-  // Retrieve a single ingredient with id
+  //Retrieve a single ingredient with id
   app.get("/ingredients/:id", findIngredientById);
 
-  // Update a single ingredient with id
+  //Update a single ingredient with id
   app.put("/ingredients/:id", updateIngredient);
 
-  // Delete a ingredient with id
+  //Delete a ingredient with id
   app.delete("/ingredients/:id", deleteIngredient);
 };

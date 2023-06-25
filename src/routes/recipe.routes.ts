@@ -169,21 +169,21 @@ module.exports = (app) => {
    *         description: Cannot find recipe's list of ingredients
    */
 
-  // Retrieve all networks
+  //Retrieve all recipes
   app.get("/recipes", findAllRecipes);
 
-  // Retrieve a single recipe with id
+  //Retrieve a single recipe with id
   app.get("/recipes/:id", findRecipe);
 
   //Create a recipe
   app.post("/recipes", createRecipe);
 
-  // Update a recipe with id
+  //Update a recipe with id
   app.put("/recipes/:id", updateRecipe);
 
-  // Delete a network with id
+  //Delete a recipe with id
   app.delete("/recipes/:id", deleteRecipe);
 
-  // Find recipe's ingredients
+  //Find recipe's ingredients
   app.get("/recipes/:id/ingredients", findRecipeIngredients);
 };

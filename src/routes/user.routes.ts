@@ -157,7 +157,7 @@ module.exports = (app) => {
    *         description: Cannot find user's list of Menus
    */
 
-  // Retrieve all networks
+  //Retrieve all users
   app.get("/users", findAllUsers);
 
   // Retrieve a single user with id
@@ -166,10 +166,10 @@ module.exports = (app) => {
   //Create a user 
   app.post("/users", createUser);
 
-  // Update a user with id
+  //Update a user with id
   app.put("/users/:id", updateUser);
 
-  // Delete a network with id
+  //Delete a user with id
   app.delete("/users/:id", deleteUser);
 
   //find users' menu
