@@ -7,33 +7,33 @@ import {
 } from "../controllers/ingredients.controller";
 
 module.exports = (app) => {
- /**
-   * @swagger
-   * components:
-   *   schemas:
-   *     Ingredient:
-   *       type: object
-   *       required:
-   *         - name
-   *       properties:
-   *         id:
-   *           type: number
-   *           description: Ingredient primary key
-   *         name:
-   *           type: string
-   *           description: Name of the ingredient
-   *         createdAt:
-   *           type: string
-   *           format: date
-   *           description: The date the ingredient was added
-   *         updatedAt:
-   *           type: string
-   *           format: date
-   *           description: The date the ingredient was added
-   *       example:
-   *         id: 1
-   *         name: carrot
-   */
+  /**
+    * @swagger
+    * components:
+    *   schemas:
+    *     Ingredient:
+    *       type: object
+    *       required:
+    *         - name
+    *       properties:
+    *         id:
+    *           type: number
+    *           description: Ingredient primary key
+    *         name:
+    *           type: string
+    *           description: Name of the ingredient
+    *         createdAt:
+    *           type: string
+    *           format: date
+    *           description: The date the ingredient was added
+    *         updatedAt:
+    *           type: string
+    *           format: date
+    *           description: The date the ingredient was added
+    *       example:
+    *         id: 1
+    *         name: carrot
+    */
 
   /**
    * @swagger
@@ -90,7 +90,7 @@ module.exports = (app) => {
    *             schema:
    *               $ref: '#/components/schemas/Ingredient'
    *       500:
-   *         description: Cannot find ingredient with id=<ingredient id>
+   *         description: Cannot find ingredient with id=<ingredient.id>
    *   put:
    *    summary: Update the ingredient by the id
    *    tags: [Ingredients]
@@ -115,7 +115,7 @@ module.exports = (app) => {
    *            schema:
    *              $ref: '#/components/schemas/Ingredient'
    *      500:
-   *        description: Something went wrong while updating ingredient with id=<ingredient id>
+   *        description: Something went wrong while updating ingredient with id=<ingredient.id>
    *   delete:
    *     summary: Remove the ingredient by id
    *     tags: [Ingredients]
@@ -131,24 +131,24 @@ module.exports = (app) => {
    *       200:
    *         description: Ingredient was deleted successfully!
    *       500:
-   *         description: Couldn't delete ingredient with id=$<ingredient id>
+   *         description: Couldn't delete ingredient with id=$<ingredient.id>
    */
 
 
   // ---- Routes
 
-  // Create a new ingredient
+  //Create a new ingredient
   app.post("/ingredients", createIngredient);
 
-  // Retrieve all ingredients
+  //Retrieve all ingredients
   app.get("/ingredients", findAllIngredients);
 
-  // Retrieve a single ingredient with id
+  //Retrieve a single ingredient with id
   app.get("/ingredients/:id", findIngredientById);
 
-  // Update a single ingredient with id
+  //Update a single ingredient with id
   app.put("/ingredients/:id", updateIngredient);
 
-  // Delete a ingredient with id
+  //Delete a ingredient with id
   app.delete("/ingredients/:id", deleteIngredient);
 };

@@ -9,43 +9,43 @@ import {
 
 module.exports = (app) => {
 
- /**
-   * @swagger
-   * components:
-   *   schemas:
-   *     Recipe:
-   *       type: object
-   *       required:
-   *         - title
-   *         - description
-   *         - instructions
-   *       properties:
-   *         id:
-   *           type: number
-   *           description: Recipe primary key
-   *         title:
-   *           type: string
-   *           description: Name of the recipe
-   *         description:
-   *           type: string
-   *           description: Recipe description
-   *         instructions:
-   *           type: string
-   *           description: Recipe instructions
-   *         createdAt:
-   *           type: string
-   *           format: date
-   *           description: The date the recipe was added
-   *         updatedAt:
-   *           type: string
-   *           format: date
-   *           description: The date the recipe was added
-   *       example:
-   *         id: 1
-   *         title: "Delicious Recipe"
-   *         description: "Something about this recipe....blah, blah, blah"
-   *         instructions: "Step 1: ...., Step 2: ....., Step 3:..."
-   */
+  /**
+    * @swagger
+    * components:
+    *   schemas:
+    *     Recipe:
+    *       type: object
+    *       required:
+    *         - title
+    *         - description
+    *         - instructions
+    *       properties:
+    *         id:
+    *           type: number
+    *           description: Recipe primary key
+    *         title:
+    *           type: string
+    *           description: Name of the recipe
+    *         description:
+    *           type: string
+    *           description: Recipe description
+    *         instructions:
+    *           type: string
+    *           description: Recipe instructions
+    *         createdAt:
+    *           type: string
+    *           format: date
+    *           description: The date the recipe was added
+    *         updatedAt:
+    *           type: string
+    *           format: date
+    *           description: The date the recipe was added
+    *       example:
+    *         id: 1
+    *         title: "Delicious Recipe"
+    *         description: "Something about this recipe....blah, blah, blah"
+    *         instructions: "Step 1: ...., Step 2: ....., Step 3:..."
+    */
 
   /**
    * @swagger
@@ -97,12 +97,12 @@ module.exports = (app) => {
    *     responses:
    *       200:
    *         description: The recipe response by id
-   *         contens:
+   *         content:
    *           application/json:
    *             schema:
    *               $ref: '#/components/schemas/Recipe'
    *       500:
-   *         description: Cannot find recipe with id=<recipe id>
+   *         description: Cannot find recipe with id=<recipe.id>
    *   put:
    *    summary: Update the recipe by the id
    *    tags: [Recipes]
@@ -127,7 +127,7 @@ module.exports = (app) => {
    *            schema:
    *              $ref: '#/components/schemas/Recipe'
    *      500:
-   *        description: Something went wrong while updating recipe with id=<recipe id>
+   *        description: Something went wrong while updating recipe with id=<recipe.id>
    *   delete:
    *     summary: Remove the recipe by id
    *     tags: [Recipes]
@@ -143,24 +143,47 @@ module.exports = (app) => {
    *       200:
    *         description: Recipe was deleted successfully!
    *       500:
-   *         description: Couldn't delete recipe with id=$<recipe id>
+   *         description: Couldn't delete recipe with id=$<recipe.id>
+   *
+   * /recipes/{id}/ingredients:
+   *   get:
+   *     summary: Get a list of recipe's ingredients
+   *     tags: [Recipes]
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         schema:
+   *           type: number
+   *         required: true
+   *         description: The recipe id
+   *     responses:
+   *        200:
+   *         description: The recipe's list of ingredients response by recipe's id
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Ingredient'
+   *        204: 
+   *         description: No content 
+   *        500:
+   *         description: Cannot find recipe's list of ingredients
    */
 
-  // Retrieve all networks
+  //Retrieve all recipes
   app.get("/recipes", findAllRecipes);
 
-  // Retrieve a single recipe with id
+  //Retrieve a single recipe with id
   app.get("/recipes/:id", findRecipe);
 
   //Create a recipe
   app.post("/recipes", createRecipe);
 
-  // Update a recipe with id
+  //Update a recipe with id
   app.put("/recipes/:id", updateRecipe);
 
-  // Delete a network with id
+  //Delete a recipe with id
   app.delete("/recipes/:id", deleteRecipe);
 
-  // Find recipe's ingredients
+  //Find recipe's ingredients
   app.get("/recipes/:id/ingredients", findRecipeIngredients);
 };
