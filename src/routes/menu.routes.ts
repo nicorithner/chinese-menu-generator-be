@@ -145,8 +145,7 @@ module.exports = (app) => {
 
   //Delete a menu with id
   app.delete("/menus/:id", deleteMenu)
+
   //Delete recipe from the menu
-
   app.delete("/menus/:id/:recipeId", deleteMenuRecipe)
-
 }
