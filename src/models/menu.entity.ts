@@ -25,7 +25,9 @@ export class Menu extends BaseEntity {
     @JoinColumn({ name: 'user_id' })
     user: User
 
-    @ManyToMany(() => Recipe)
+    @ManyToMany(() => Recipe, {
+        onDelete: "CASCADE",
+    })
     @JoinTable()
     recipes: Recipe[];
 }
