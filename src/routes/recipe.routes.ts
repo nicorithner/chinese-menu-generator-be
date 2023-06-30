@@ -4,7 +4,6 @@ import {
   createRecipe,
   updateRecipe,
   deleteRecipe,
-  findRecipeIngredients,
 } from "../controllers/recipe.controller";
 
 module.exports = (app) => {
@@ -184,6 +183,4 @@ module.exports = (app) => {
   //Delete a recipe with id
   app.delete("/recipes/:id", deleteRecipe);
 
-  //Find recipe's ingredients
-  app.get("/recipes/:id/ingredients", findRecipeIngredients);
 };
