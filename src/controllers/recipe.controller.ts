@@ -72,31 +72,4 @@ export const deleteRecipe = async (req: Request, res: Response) => {
   }
 };
 
-export const findRecipeIngredients = async (req: Request, res: Response) => {
-  try {
-    const recipe = await AppDataSource.getRepository(Recipe).findOne({
-      relations: {
-        ingredients: true,
-      },
-      where: { id: +req.params.id },
-    });
-
-    if (recipe?.ingredients) {
-      res.send(recipe?.ingredients);
-    } else if (!recipe) {
-      throw new Error("Recipe not found");
-    } else {
-      res.status(204).send({
-        message: `Recipe ${recipe?.title} has no ingredients`,
-      });
-    }
-  } catch (err: any) {
-    res.status(500).send({
-      message:
-        err.message ||
-        `Something went wrong while retrieving list of ingredients`,
-    });
-  }
-};
-
 export default app;
