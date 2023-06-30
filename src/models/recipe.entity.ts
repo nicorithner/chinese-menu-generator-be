@@ -6,23 +6,24 @@ import {
   ManyToMany,
   JoinTable,
 } from "typeorm";
-import { Ingredient } from "./ingredient.entity";
-
+import { Menu } from "./menu.entity";
 @Entity()
 export class Recipe extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
+  category: string;
+
+  @Column()
   title: string;
 
-  @Column("varchar", { length: 10000 })
-  description: string;
+  @Column()
+  summary: string;
 
-  @Column("varchar", { length: 1000 })
-  instructions: string;
+  @Column()
+  steps: string;
 
-    @ManyToMany(() => Ingredient)
-    @JoinTable()
-    ingredients: Ingredient[]
+  @Column()
+  ingredients: string;
 }
