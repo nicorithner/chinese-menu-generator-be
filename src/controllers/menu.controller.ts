@@ -2,12 +2,13 @@ import express, { Request, Response } from "express";
 import { AppDataSource } from "../config/config";
 import { Menu } from "../models/menu.entity";
 import { recipeService } from "../services/recipe.service";
+import { Recipe } from "../models/recipe.entity";
 
 const app = express();
 app.use(express.json());
 
-const getRecipes = async (categories) => {
-    const menuRecipes = Array();
+const getRecipes = async (categories: string[]): Promise<Recipe[]> => {
+    const menuRecipes: Recipe[] = [];
     for (const category of categories) {
         const recipe = await recipeService(category);
         menuRecipes.push(recipe);
@@ -51,11 +52,7 @@ export const createMenu = async (req: Request, res: Response) => {
         const menu = await Menu.create(req.body);
         await AppDataSource.getRepository(Menu).save(menu);
         const { categories } = req.body;
-        const menuRecipes = Array();
-        for (const category of categories) {
-            const recipe = await recipeService(category);
-            menuRecipes.push(recipe);
-        }
+        const menuRecipes = await getRecipes(categories);
         menu.recipes = menuRecipes;
         await AppDataSource.getRepository(Menu).save(menu);
         return res.status(200).send({
@@ -71,19 +68,20 @@ export const createMenu = async (req: Request, res: Response) => {
 
 export const updateMenu = async (req: Request, res: Response) => {
     try {
-        const menuToUpdate = await await Menu.findOne({
+        const menuToUpdate = await Menu.findOne({
             where: { id: +req.params.id },
             relations: { recipes: true },
         });
         const { name, categories } = req.body;
         if (!menuToUpdate)
             throw new Error(`Menu with id of ${+req.params.id} can not be found!`);
-        menuToUpdate.name = name;
-        const menuRecipes = Array();
-        for (const category of categories) {
-            const recipe = await recipeService(category);
-            menuRecipes.push(recipe);
+        //update the menu name
+        if (name && name !== menuToUpdate.name) {
+            menuToUpdate.name = name;
         }
+        //regenrate recipes
+        menuToUpdate.recipes = [];
+        const menuRecipes = await getRecipes(categories);
         menuToUpdate.recipes = menuRecipes;
         await AppDataSource.getRepository(Menu).save(menuToUpdate);
         const menuUpdated = await Menu.findOne({
@@ -123,18 +121,14 @@ export const deleteMenuRecipe = async (req: Request, res: Response) => {
             where: { id: +req.params.id },
             relations: { recipes: true },
         });
-
         if (!menuToDelete) {
             throw new Error(`Menu with id of ${+req.params.id} cannot be found!`);
         }
-
         const recipeIdToDelete = +req.params.recipeId;
         menuToDelete.recipes = menuToDelete.recipes.filter(
             (recipe) => recipe.id !== recipeIdToDelete
         );
-
         await AppDataSource.getRepository(Menu).save(menuToDelete);
-
         return res.send({
             message: `Menu recipe with id ${recipeIdToDelete} deleted successfully`,
         });
