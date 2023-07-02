@@ -5,46 +5,46 @@ import {
   updateRecipe,
   deleteRecipe,
 } from "../controllers/recipe.controller";
+import { Express } from "express";
 
-module.exports = (app) => {
-
+export const recipeRoutes = (app: Express) => {
   /**
-    * @swagger
-    * components:
-    *   schemas:
-    *     Recipe:
-    *       type: object
-    *       required:
-    *         - title
-    *         - description
-    *         - instructions
-    *       properties:
-    *         id:
-    *           type: number
-    *           description: Recipe primary key
-    *         title:
-    *           type: string
-    *           description: Name of the recipe
-    *         description:
-    *           type: string
-    *           description: Recipe description
-    *         instructions:
-    *           type: string
-    *           description: Recipe instructions
-    *         createdAt:
-    *           type: string
-    *           format: date
-    *           description: The date the recipe was added
-    *         updatedAt:
-    *           type: string
-    *           format: date
-    *           description: The date the recipe was added
-    *       example:
-    *         id: 1
-    *         title: "Delicious Recipe"
-    *         description: "Something about this recipe....blah, blah, blah"
-    *         instructions: "Step 1: ...., Step 2: ....., Step 3:..."
-    */
+   * @swagger
+   * components:
+   *   schemas:
+   *     Recipe:
+   *       type: object
+   *       required:
+   *         - title
+   *         - description
+   *         - instructions
+   *       properties:
+   *         id:
+   *           type: number
+   *           description: Recipe primary key
+   *         title:
+   *           type: string
+   *           description: Name of the recipe
+   *         description:
+   *           type: string
+   *           description: Recipe description
+   *         instructions:
+   *           type: string
+   *           description: Recipe instructions
+   *         createdAt:
+   *           type: string
+   *           format: date
+   *           description: The date the recipe was added
+   *         updatedAt:
+   *           type: string
+   *           format: date
+   *           description: The date the recipe was added
+   *       example:
+   *         id: 1
+   *         title: "Delicious Recipe"
+   *         description: "Something about this recipe....blah, blah, blah"
+   *         instructions: "Step 1: ...., Step 2: ....., Step 3:..."
+   */
 
   /**
    * @swagger
@@ -162,8 +162,8 @@ module.exports = (app) => {
    *           application/json:
    *             schema:
    *               $ref: '#/components/schemas/Ingredient'
-   *        204: 
-   *         description: No content 
+   *        204:
+   *         description: No content
    *        500:
    *         description: Cannot find recipe's list of ingredients
    */
@@ -182,5 +182,4 @@ module.exports = (app) => {
 
   //Delete a recipe with id
   app.delete("/recipes/:id", deleteRecipe);
-
 };

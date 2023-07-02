@@ -9,11 +9,12 @@ app.get("/", (_req: Request, res: Response): Response => {
   return res.status(200).json({ message: "Hello World!" });
 });
 
-const ingredientRoutes = require("./routes/ingredients.routes");
-const userRoutes = require("./routes/user.routes");
-const menuRoutes = require("./routes/menu.routes")
-const recipeRoutes = require("./routes/recipe.routes");
-const swaggerRoute = require("../swagger.ts");
+import { ingredientRoutes } from "./routes/ingredients.routes";
+import { userRoutes } from "./routes/user.routes";
+import { menuRoutes } from "./routes/menu.routes";
+import { recipeRoutes } from "./routes/recipe.routes";
+import { swaggerRoute } from "../swagger";
+
 userRoutes(app);
 ingredientRoutes(app);
 recipeRoutes(app);

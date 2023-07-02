@@ -1,9 +1,9 @@
 import express from "express";
-const app = express();
+import { Express } from "express";
 
 import { findAllMenus, findMenuById, createMenu, updateMenu, deleteMenu, deleteMenuRecipe } from "../controllers/menu.controller";
 
-module.exports = (app) => {
+export const menuRoutes = (app: Express) => {
   /**
 * @swagger
 * components:

@@ -1,5 +1,6 @@
-const swaggerUi = require("swagger-ui-express");
-const swaggerJsdoc = require("swagger-jsdoc");
+import swaggerUi from "swagger-ui-express";
+import swaggerJsdoc from "swagger-jsdoc";
+import { Express } from "express";
 
 const options = {
   definition: {
@@ -16,7 +17,7 @@ const options = {
 
 const specs = swaggerJsdoc(options);
 
-module.exports = (app) => {
+export const swaggerRoute = (app: Express) => {
   app.use(
     "/api-docs",
     swaggerUi.serve,
