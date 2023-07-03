@@ -5,32 +5,32 @@ import { findAllMenus, findMenuById, createMenu, updateMenu, deleteMenu, deleteM
 
 export const menuRoutes = (app: Express) => {
   /**
-* @swagger
-* components:
-*   schemas:
-*     Menu:
-*       type: object
-*       required:
-*         - name
-*       properties:
-*         id:
-*           type: number
-*           description: Menu primary key
-*         name:
-*           type: string
-*           description: Name of the menu
-*         createdAt:
-*           type: string
-*           format: date
-*           description: The date the menu was added
-*         updatedAt:
-*           type: string
-*           format: date
-*           description: The date the menu was added
-*       example:
-*         id: 1
-*         name: spicy fish
-*/
+  * @swagger
+  * components:
+  *   schemas:
+  *     Menu:
+  *       type: object
+  *       required:
+  *         - name
+  *       properties:
+  *         id:
+  *           type: number
+  *           description: Menu primary key
+  *         name:
+  *           type: string
+  *           description: Name of the menu
+  *         createdAt:
+  *           type: string
+  *           format: date
+  *           description: The date the menu was added
+  *         updatedAt:
+  *           type: string
+  *           format: date
+  *           description: The date the menu was added
+  *       example:
+  *         id: 1
+  *         name: Lunch Menu
+  */
 
   /**
    * @swagger
