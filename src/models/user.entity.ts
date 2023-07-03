@@ -13,11 +13,11 @@ export class User extends BaseEntity {
     id: number
 
 
-    @Column()
+    @Column({type: "varchar"})
     firstName: string
 
 
-    @Column()
+    @Column({type: "varchar"})
     lastName: string
 
     @OneToMany(() => Menu, (menu) => menu.user, {
