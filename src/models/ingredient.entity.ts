@@ -10,6 +10,6 @@ export class Ingredient extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({type: "varchar"})
   name: string;
 }

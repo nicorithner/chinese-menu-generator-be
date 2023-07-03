@@ -13,7 +13,7 @@ export class Menu extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
+    @Column({type: "varchar"})
     name: string
 
     @Column()

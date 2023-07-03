@@ -3,16 +3,13 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  ManyToMany,
-  JoinTable,
 } from "typeorm";
-import { Menu } from "./menu.entity";
 @Entity()
 export class Recipe extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({type: "varchar"})
   category: string;
 
   @Column()
