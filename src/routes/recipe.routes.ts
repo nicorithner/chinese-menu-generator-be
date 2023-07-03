@@ -22,15 +22,21 @@ export const recipeRoutes = (app: Express) => {
    *         id:
    *           type: number
    *           description: Recipe primary key
+   *         category:
+   *           type: string
+   *           description: Category of the recipe
    *         title:
    *           type: string
    *           description: Name of the recipe
-   *         description:
+   *         summary:
    *           type: string
-   *           description: Recipe description
-   *         instructions:
+   *           description: Recipe descriptions 
+   *         steps:
    *           type: string
    *           description: Recipe instructions
+   *         ingredients:
+   *           type: string
+   *           descriptions: Ingredients of the recipe
    *         createdAt:
    *           type: string
    *           format: date
@@ -41,9 +47,11 @@ export const recipeRoutes = (app: Express) => {
    *           description: The date the recipe was added
    *       example:
    *         id: 1
-   *         title: "Delicious Recipe"
-   *         description: "Something about this recipe....blah, blah, blah"
-   *         instructions: "Step 1: ...., Step 2: ....., Step 3:..."
+   *         category: "dessert"
+   *         title: "Cheese Cake"
+   *         summary: "Yummu low calary cheese cake"
+   *         steps: "Step 1: ...., Step 2: ....., Step 3:..."
+   *         ingredients: "flour, butter, ..."
    */
 
   /**
@@ -144,28 +152,6 @@ export const recipeRoutes = (app: Express) => {
    *       500:
    *         description: Couldn't delete recipe with id=$<recipe.id>
    *
-   * /recipes/{id}/ingredients:
-   *   get:
-   *     summary: Get a list of recipe's ingredients
-   *     tags: [Recipes]
-   *     parameters:
-   *       - in: path
-   *         name: id
-   *         schema:
-   *           type: number
-   *         required: true
-   *         description: The recipe id
-   *     responses:
-   *        200:
-   *         description: The recipe's list of ingredients response by recipe's id
-   *         content:
-   *           application/json:
-   *             schema:
-   *               $ref: '#/components/schemas/Ingredient'
-   *        204:
-   *         description: No content
-   *        500:
-   *         description: Cannot find recipe's list of ingredients
    */
 
   //Retrieve all recipes
