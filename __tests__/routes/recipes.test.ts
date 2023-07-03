@@ -1,6 +1,5 @@
 import request from "supertest";
 import app from "../../src/app";
-import "reflect-metadata";
 import { AppDataSource } from "../../src/config/config";
 import { Recipe } from "../../src/models/recipe.entity";
 
