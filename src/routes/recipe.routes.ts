@@ -30,7 +30,7 @@ export const recipeRoutes = (app: Express) => {
    *           description: Name of the recipe
    *         summary:
    *           type: string
-   *           description: Recipe descriptions 
+   *           description: Recipe description 
    *         steps:
    *           type: string
    *           description: Recipe instructions
