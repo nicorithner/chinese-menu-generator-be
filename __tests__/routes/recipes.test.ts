@@ -1,9 +1,6 @@
 import request from "supertest";
-import { DataSource } from "typeorm";
-
 import app from "../../src/app";
 import { AppDataSource } from "../../src/config/config";
-import { Ingredient } from "../../src/models/ingredient.entity";
 import { Recipe } from "../../src/models/recipe.entity";
 
 let connection: any;
@@ -13,37 +10,27 @@ describe("Recipes Endpoints", () => {
     // set up test db
     AppDataSource.setOptions({
       database: "chinese_menu_test",
-      entities: [Recipe, Ingredient],
+      entities: [Recipe],
       synchronize: true,
       dropSchema: true,
     });
     connection = await AppDataSource.initialize();
     await connection.synchronize(true);
 
-    // create some ingredients
-    const ingredient1 = await Ingredient.create({ name: "kale" });
-    const ingredient2 = await Ingredient.create({ name: "apple" });
-    await AppDataSource.getRepository(Ingredient).save(ingredient1);
-    await AppDataSource.getRepository(Ingredient).save(ingredient2);
-
-    // create some recipes
     const recipe1 = await Recipe.create({
+      category: "main course",
       title: "Recipe 1",
-      description: "This recipe is blahblahblah....",
-      instructions: "Step 1: ....., Step 2: ......",
+      summary: "This recipe is blahblahblah....",
+      steps: "Step 1: ....., Step 2: ......",
+      ingredients: "oil, garlic, ...",
     });
     const recipe2 = await Recipe.create({
+      category: "dessert",
       title: "Recipe 2",
-      description: "This recipe is blahblahblah....",
-      instructions: "Step 1: ....., Step 2: ......",
+      summary: "This recipe is blahblahblah....",
+      steps: "Step 1: ....., Step 2: ......",
+      ingredients: "flour, butter, ...",
     });
-    await AppDataSource.getRepository(Recipe).save(recipe1);
-    await AppDataSource.getRepository(Recipe).save(recipe2);
-
-    // Add ingredients to recipes
-    recipe1.ingredients = [ingredient1, ingredient2];
-    recipe2.ingredients = [ingredient1, ingredient2];
-
     await AppDataSource.getRepository(Recipe).save(recipe1);
     await AppDataSource.getRepository(Recipe).save(recipe2);
   });
@@ -62,15 +49,19 @@ describe("Recipes Endpoints", () => {
         expect(res.body).toMatchObject([
           {
             id: 1,
+            category: "main course",
             title: "Recipe 1",
-            description: "This recipe is blahblahblah....",
-            instructions: "Step 1: ....., Step 2: ......",
+            summary: "This recipe is blahblahblah....",
+            steps: "Step 1: ....., Step 2: ......",
+            ingredients: "oil, garlic, ..."
           },
           {
             id: 2,
             title: "Recipe 2",
-            description: "This recipe is blahblahblah....",
-            instructions: "Step 1: ....., Step 2: ......",
+            category: "dessert",
+            summary: "This recipe is blahblahblah....",
+            steps: "Step 1: ....., Step 2: ......",
+            ingredients: "flour, butter, ...",
           },
         ]);
 
@@ -82,9 +73,11 @@ describe("Recipes Endpoints", () => {
     const response = request(app)
       .post("/recipes")
       .send({
+        category: "soup",
         title: "Recipe 3",
-        description: "This recipe is blahblahblah....",
-        instructions: "Step 1: ....., Step 2: ......",
+        summary: "This recipe is blahblahblah....",
+        steps: "Step 1: ....., Step 2: ......",
+        ingredients: "water, chicken, ...",
       })
       .expect(200)
       .end((err, res) => {
@@ -92,11 +85,13 @@ describe("Recipes Endpoints", () => {
 
         expect(res.body).toMatchObject({
           message: "Recipe id: 3 created successfully",
-          result: {
+          savedRecipe: {
             id: 3,
+            category: "soup",
             title: "Recipe 3",
-            description: "This recipe is blahblahblah....",
-            instructions: "Step 1: ....., Step 2: ......",
+            summary: "This recipe is blahblahblah....",
+            steps: "Step 1: ....., Step 2: ......",
+            ingredients: "water, chicken, ...",
           },
         });
         done();
@@ -110,14 +105,16 @@ describe("Recipes Endpoints", () => {
       .end((err, res) => {
         if (err) return done(err);
 
-        expect(res.body).toMatchObject([
+        expect(res.body).toMatchObject(
           {
             id: 1,
+            category: "main course",
             title: "Recipe 1",
-            description: "This recipe is blahblahblah....",
-            instructions: "Step 1: ....., Step 2: ......",
+            summary: "This recipe is blahblahblah....",
+            steps: "Step 1: ....., Step 2: ......",
+            ingredients: "oil, garlic, ..."
           },
-        ]);
+        );
 
         done();
       });
@@ -136,26 +133,12 @@ describe("Recipes Endpoints", () => {
         const updated = await Recipe.findOneBy({ id: 1 });
         expect(updated).toMatchObject({
           id: 1,
+          category: "main course",
           title: "New Recipe Name",
-          description: "This recipe is blahblahblah....",
-          instructions: "Step 1: ....., Step 2: ......",
+          summary: "This recipe is blahblahblah....",
+          steps: "Step 1: ....., Step 2: ......",
+          ingredients: "oil, garlic, ..."
         });
-
-        done();
-      });
-  });
-
-  it("GET '/recipes/:id/ingredients' it will return recipe's list of ingredients", (done) => {
-    request(app)
-      .get("/recipes/2/ingredients")
-      .expect(200)
-      .end((err, res) => {
-        if (err) return done(err);
-
-        expect(res.body).toMatchObject([
-          { id: 1, name: "kale" },
-          { id: 2, name: "apple" },
-        ]);
 
         done();
       });
@@ -169,13 +152,7 @@ describe("Recipes Endpoints", () => {
         if (err) return done(err);
 
         const deleted = await Recipe.findOneBy({ id: 1 });
-        const ingredientIsNotDeleted = await Ingredient.findBy({
-          name: "kale",
-        });
-
         expect(deleted).toBe(null);
-        expect(ingredientIsNotDeleted).toMatchObject([{ id: 1, name: "kale" }]);
-
         done();
       });
   });
