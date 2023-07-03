@@ -5,8 +5,9 @@ import {
   deleteIngredient,
   updateIngredient,
 } from "../controllers/ingredients.controller";
+import { Express } from "express";
 
-module.exports = (app) => {
+export const ingredientRoutes = (app: Express) => {
   /**
     * @swagger
     * components:

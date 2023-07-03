@@ -1,38 +1,45 @@
-import { findAllUsers, findUserByID, createUser, updateUser, deleteUser, findUserMenus } from "../controllers/user.controller";
+import {
+  findAllUsers,
+  findUserByID,
+  createUser,
+  updateUser,
+  deleteUser,
+  findUserMenus,
+} from "../controllers/user.controller";
+import { Express } from "express";
 
-module.exports = (app) => {
-
+export const userRoutes = (app: Express) => {
   /**
-* @swagger
-* components:
-*   schemas:
-*     User:
-*       type: object
-*       required:
-*         - name
-*       properties:
-*         id:
-*           type: number
-*           description: User primary key
-*         firstName:
-*           type: string
-*           description: First Name of the user
-*         lastName:
-*           type: string
-*           description: Last Name of the user
-*         createdAt:
-*           type: string
-*           format: date
-*           description: The date the user was added
-*         updatedAt:
-*           type: string
-*           format: date
-*           description: The date the user was added
-*       example:
-*         id: 1
-*         firstName: Lingling
-*         lastName: Gan
-*/
+   * @swagger
+   * components:
+   *   schemas:
+   *     User:
+   *       type: object
+   *       required:
+   *         - name
+   *       properties:
+   *         id:
+   *           type: number
+   *           description: User primary key
+   *         firstName:
+   *           type: string
+   *           description: First Name of the user
+   *         lastName:
+   *           type: string
+   *           description: Last Name of the user
+   *         createdAt:
+   *           type: string
+   *           format: date
+   *           description: The date the user was added
+   *         updatedAt:
+   *           type: string
+   *           format: date
+   *           description: The date the user was added
+   *       example:
+   *         id: 1
+   *         firstName: Lingling
+   *         lastName: Gan
+   */
 
   /**
    * @swagger
@@ -90,7 +97,7 @@ module.exports = (app) => {
    *               $ref: '#/components/schemas/User'
    *       500:
    *         description: Cannot find user with id=<user.id>
-   * 
+   *
    *   put:
    *    summary: Update the user by the id
    *    tags: [Users]
@@ -132,7 +139,7 @@ module.exports = (app) => {
    *         description: User was deleted successfully!
    *       500:
    *         description: Couldn't delete user with id=$<user.id>
-   * 
+   *
    * /users/{id}/menus:
    *   get:
    *     summary: Get a list of user's menus
@@ -151,8 +158,8 @@ module.exports = (app) => {
    *           application/json:
    *             schema:
    *               $ref: '#/components/schemas/Menu'
-   *       204: 
-   *         description: No content 
+   *       204:
+   *         description: No content
    *       500:
    *         description: Cannot find user's list of Menus
    */
@@ -163,7 +170,7 @@ module.exports = (app) => {
   // Retrieve a single user with id
   app.get("/users/:id", findUserByID);
 
-  //Create a user 
+  //Create a user
   app.post("/users", createUser);
 
   //Update a user with id
@@ -174,8 +181,4 @@ module.exports = (app) => {
 
   //find users' menu
   app.get("/users/:id/menus", findUserMenus);
-}
-
-
-
-
+};
