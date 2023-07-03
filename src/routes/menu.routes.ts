@@ -1,36 +1,35 @@
-import express from "express";
 import { Express } from "express";
 
 import { findAllMenus, findMenuById, createMenu, updateMenu, deleteMenu, deleteMenuRecipe } from "../controllers/menu.controller";
 
 export const menuRoutes = (app: Express) => {
   /**
-* @swagger
-* components:
-*   schemas:
-*     Menu:
-*       type: object
-*       required:
-*         - name
-*       properties:
-*         id:
-*           type: number
-*           description: Menu primary key
-*         name:
-*           type: string
-*           description: Name of the menu
-*         createdAt:
-*           type: string
-*           format: date
-*           description: The date the menu was added
-*         updatedAt:
-*           type: string
-*           format: date
-*           description: The date the menu was added
-*       example:
-*         id: 1
-*         name: spicy fish
-*/
+  * @swagger
+  * components:
+  *   schemas:
+  *     Menu:
+  *       type: object
+  *       required:
+  *         - name
+  *       properties:
+  *         id:
+  *           type: number
+  *           description: Menu primary key
+  *         name:
+  *           type: string
+  *           description: Name of the menu
+  *         createdAt:
+  *           type: string
+  *           format: date
+  *           description: The date the menu was added
+  *         updatedAt:
+  *           type: string
+  *           format: date
+  *           description: The date the menu was added
+  *       example:
+  *         id: 1
+  *         name: Lunch Menu
+  */
 
   /**
    * @swagger
@@ -129,6 +128,23 @@ export const menuRoutes = (app: Express) => {
    *         description: Menu was deleted successfully!
    *       500:
    *         description: Couldn't delete menu with id=$<menu.id>
+   * /menus/{id}/{recipeId}:
+   *   delete:
+   *     summary: Remove the relation between the recipe and the current menu
+   *     tags: [Menus]
+   *     parameters:
+   *       - in: path
+   *         name: id recipeId
+   *         schema:
+   *           type: number
+   *         required: true
+   *         description: The menu id and the recipe id
+   *
+   *     responses:
+   *       200:
+   *         description: The recipe menu relationship was deleted successfully!
+   *       500:
+   *         description: Couldn't delete recipe menu relationship with id=$<recipe.id>
    */
 
   //Retrive all menus

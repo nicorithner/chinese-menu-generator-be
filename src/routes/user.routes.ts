@@ -167,7 +167,7 @@ export const userRoutes = (app: Express) => {
   //Retrieve all users
   app.get("/users", findAllUsers);
 
-  // Retrieve a single user with id
+  //Retrieve a single user with id
   app.get("/users/:id", findUserByID);
 
   //Create a user
@@ -179,6 +179,6 @@ export const userRoutes = (app: Express) => {
   //Delete a user with id
   app.delete("/users/:id", deleteUser);
 
-  //find users' menu
+  //Find users' menu
   app.get("/users/:id/menus", findUserMenus);
 };
