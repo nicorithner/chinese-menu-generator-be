@@ -47,7 +47,7 @@ LinkedIn: [linkedin.com/in/lingling-gan/](https://www.linkedin.com/in/lingling-g
 
 #### Nico Rithner
 
-Github: [github.com/nicorithner](https://github.com/nicorithner) 
+Github: [github.com/nicorithner](https://github.com/nicorithner)
 
 LinkedIn: [linkedin.com/in/nicorithner/](https://www.linkedin.com/in/nicorithner/)
 
@@ -64,7 +64,7 @@ LinkedIn: [linkedin.com/in/nicorithner/](https://www.linkedin.com/in/nicorithner
 
 ### Extension Goals for Future Iterations
 
-- A User can create a menu indicating preferred ingredients
+- An user can create a menu indicating preferred ingredients
 - An user can create a menu based on a selection of preferred ingredients
 - An user can update a menu's recipes individually without generating all recipes
 - Implement User authentication
@@ -109,28 +109,28 @@ If this fails run tests individually:
 
 ### User
 
-  - Id
-  - firstName
-  - lastName
+- Id
+- firstName
+- lastName
 
 A user has many menus
 
 ### Menu
 
-  - Id
-  - name
-  - user_id
-  
+- Id
+- name
+- user_id
+
 A menu belongs to a user
 
 ### Recipe
 
-  - Id
-  - category
-  - title
-  - summary
-  - steps
-  - ingredients
+- Id
+- category
+- title
+- summary
+- steps
+- ingredients
 
 A recipe belongs to a menu
 
@@ -145,7 +145,6 @@ To access API documentation please navigate to
 ### Postman
 
 Visit postman to checkout the collection of enpoints and try it locally.
-
 
 ### User Endpoints
 
@@ -197,9 +196,9 @@ Visit postman to checkout the collection of enpoints and try it locally.
 
     Deletes an individual menu by id
 
-##### GET "/menus/:id/recipes"
+##### DELETE "/menus/:id/:recipeId"
 
-    Lists a menu recipes
+    Delete menu recipe by id
 
 <hr/>
 
