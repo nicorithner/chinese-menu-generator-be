@@ -113,7 +113,7 @@ If this fails run tests individually:
 - firstName
 - lastName
 
-A user has many menus
+An user has many menus
 
 ### Menu
 
@@ -121,7 +121,7 @@ A user has many menus
 - name
 - user_id
 
-A menu belongs to a user
+A menu belongs to an user
 
 ### Recipe
 
@@ -170,7 +170,7 @@ Visit postman to checkout the collection of enpoints and try it locally.
 
 ##### GET "/users/:id/menus"
 
-    Lists a user by id menus
+    Lists an user by id menus
 
 <hr/>
 
