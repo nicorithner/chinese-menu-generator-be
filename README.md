@@ -64,9 +64,9 @@ LinkedIn: [linkedin.com/in/nicorithner/](https://www.linkedin.com/in/nicorithner
 
 ### Extension Goals for Future Iterations
 
-- An user can create a menu indicating preferred ingredients
-- An user can create a menu based on a selection of preferred ingredients
-- An user can update a menu's recipes individually without generating all recipes
+- a user can create a menu indicating preferred ingredients
+- a user can create a menu based on a selection of preferred ingredients
+- a user can update a menu's recipes individually without generating all recipes
 - Implement User authentication
 
 ## Stack
@@ -113,7 +113,7 @@ If this fails run tests individually:
 - firstName
 - lastName
 
-An user has many menus
+a user has many menus
 
 ### Menu
 
@@ -121,7 +121,7 @@ An user has many menus
 - name
 - user_id
 
-A menu belongs to an user
+A menu belongs to a user
 
 ### Recipe
 
@@ -170,7 +170,7 @@ Visit postman to checkout the collection of enpoints and try it locally.
 
 ##### GET "/users/:id/menus"
 
-    Lists an user by id menus
+    Lists a user by id menus
 
 <hr/>
 
